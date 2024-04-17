@@ -27,3 +27,8 @@ Available services:
 ```
 
 Run project on browser: [https://localhost:8080](http://localhost:8080)
+
+To stop docker services run:
+```shell
+./scripts/stop.sh
+```
