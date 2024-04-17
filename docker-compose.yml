@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+    php.cargo-calculator:
+        build: ./.docker/php
+        container_name: 'cc_php'
+        restart: "no"
+        ports:
+            - "9000:9000"
+        volumes:
+            - "./:/var/www:cached"
+
+    nginx.cargo-calculator:
+        build: ./.docker/nginx
+        container_name: "cc_nginx"
+        restart: "no"
+        ports:
+            - "8080:80"
+        volumes:
+            - "./:/var/www/:cached"
+            - "./.docker/logs/nginx:/var/log/nginx:cached"
+
+    mysql.cargo-calculator:
+        image: mysql:8.0.32
+        container_name: "cc_mysql"
+        environment:
+            MYSQL_USER: "${DB_USER}"
+            MYSQL_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_DATABASE: "${DB_NAME}"
+        ports:
+            - "3306:3306"
+        volumes:
+            - "./.docker/mysql:/var/lib/mysql"
