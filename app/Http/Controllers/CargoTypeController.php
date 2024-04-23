@@ -2,42 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\CargoTypeEnum;
-use App\Http\Requests\CargoTypeRequest;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\NewCargoTypeRequest;
+use App\Models\Cargo;
+use App\Models\CargoType;
+use Illuminate\Database\Eloquent\Collection;
 
 class CargoTypeController extends Controller
 {
-    /**
-     * Returns
-     *
-     * @param CargoTypeRequest $request
-     * @return JsonResponse
-     */
-    public function getCargoPrice(CargoTypeRequest $request): JsonResponse
+    public function __construct()
     {
-        $cargoTypeID = $request->get('cargoType');
 
-        $distance = $request->get('distance');
-        $weight = $request->get('weight');
-        $isDangerous = $request->get('isDangerous');
+    }
 
-        $cargoType = CargoTypeEnum::from($cargoTypeID);
+    /**
+     * @return Collection
+     */
+    public function getAll(): Collection
+    {
+        return CargoType::all();
+    }
 
-        $cargoTypeClass = $cargoType->getCargoTypeClass();
+    /**
+     * @param NewCargoTypeRequest $request
+     * @return CargoType
+     */
+    public function store(NewCargoTypeRequest $request): CargoType
+    {
+        $cargoTypeData = $request->all();
 
-        $price = $cargoTypeClass->calculatePrice(
-            $distance,
-            $weight,
-            (bool) $isDangerous
-        );
-
-        return new JsonResponse(
-            [
-                'data' => [
-                    'price' => $price
-                ]
-            ]
-        );
+        return CargoType::create($cargoTypeData);
     }
 }
