@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\CargoType;
 use App\Enums\CargoTypeEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

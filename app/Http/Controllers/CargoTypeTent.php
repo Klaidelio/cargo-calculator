@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\CargoType;
 use App\Enums\CargoTypeEnum;
 use App\Http\Controllers\Interfaces\CargoTypeInterface;
 
