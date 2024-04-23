@@ -19,5 +19,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::get('test', [CargoTypeController::class, 'getCargoPrice']);
+Route::group(
+    [
+        'prefix' => '/cargos',
+        'namespace' => 'Cargos',
+        'middleware' => ['api']
+    ],
+    static function () {
+        Route::get('/price', [CargoTypeController::class, 'getCargoPrice'])
+            ->name('cargo.get-price');
+    }
+);

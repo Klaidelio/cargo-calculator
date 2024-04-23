@@ -3,23 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Enums\CargoTypeEnum;
+use App\Http\Requests\CargoTypeRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CargoTypeController extends Controller
 {
-    public function getCargoPrice(Request $request): JsonResponse
+    /**
+     * Returns
+     *
+     * @param CargoTypeRequest $request
+     * @return JsonResponse
+     */
+    public function getCargoPrice(CargoTypeRequest $request): JsonResponse
     {
         $cargoTypeID = $request->get('cargoType');
-
-        if (!$cargoTypeID || !CargoTypeEnum::tryFrom($cargoTypeID)) {
-            return new JsonResponse(
-                [
-                    'error' => 'cargoType parameter value is empty or invalid'
-                ],
-                400
-            );
-        }
 
         $distance = $request->get('distance');
         $weight = $request->get('weight');
@@ -30,8 +27,8 @@ class CargoTypeController extends Controller
         $cargoTypeClass = $cargoType->getCargoTypeClass();
 
         $price = $cargoTypeClass->calculatePrice(
-            (float) $distance,
-            (float) $weight,
+            $distance,
+            $weight,
             (bool) $isDangerous
         );
 

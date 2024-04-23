@@ -14,7 +14,10 @@ class CargoTypeTent implements CargoTypeInterface
 
     }
 
-    public function calculatePrice(float $distance, float $weight, bool $isDangerous = false): float
+    /**
+     * @inheritDoc
+     */
+    public function calculatePrice(float $distance, float|int $weight, bool $isDangerous = false): float
     {
         $pricePerDistance = $isDangerous
             ? $this->cargoTypeEnum->getDangerousCargoDistancePrice()
@@ -24,6 +27,6 @@ class CargoTypeTent implements CargoTypeInterface
             ? $this->cargoTypeEnum->getDangerousCargoWeightPrice()
             : $this->cargoTypeEnum->getCargoWeightPrice();
 
-        return ($pricePerDistance * $distance) + ($pricePerWeight * $weight);
+        return (($pricePerDistance * $distance) + ($pricePerWeight * $weight)) / 100;
     }
 }

@@ -6,57 +6,53 @@ use App\Http\Controllers\CargoTypeCar;
 use App\Http\Controllers\CargoTypeTent;
 use App\Http\Controllers\Interfaces\CargoTypeInterface;
 
-enum CargoTypeEnum: string
+enum CargoTypeEnum: int
 {
-    case CARGO_CAR = '1';
-    case CARGO_TENT = '2';
+    case CARGO_CAR = 1;
+    case CARGO_TENT = 2;
 
     /**
-     * @return float Returns price amount of 1KG
+     * @return int Returns price amount of 1KG
      */
-    public function getCargoWeightPrice()
+    public function getCargoWeightPrice(): int
     {
         return match ($this) {
-            self::CARGO_CAR => 0.1,
-            self::CARGO_TENT => 0.2
+            self::CARGO_CAR, self::CARGO_TENT => 50,
         };
     }
 
     /**
-     * @return float Returns price amount of 1KM
+     * @return int Returns price amount of 1KM
      */
-    public function getCargoDistancePrice()
+    public function getCargoDistancePrice(): int
     {
         return match ($this) {
-            self::CARGO_CAR => 0.5,
-            self::CARGO_TENT => 0.4
+            self::CARGO_CAR, self::CARGO_TENT => 10
         };
     }
 
     /**
-     * @return float Returns price amount of 1KG for dangerous cargo
+     * @return int Returns price amount of 1KG for dangerous cargo
      */
-    public function getDangerousCargoWeightPrice()
+    public function getDangerousCargoWeightPrice(): int
     {
         return match ($this) {
-            self::CARGO_CAR => 0.5,
-            self::CARGO_TENT => 0.7
+            self::CARGO_CAR, self::CARGO_TENT => 80
         };
     }
 
     /**
-     * @return float Returns price amount of 1KM for dangerous cargo
+     * @return int Returns price amount of 1KM for dangerous cargo
      */
-    public function getDangerousCargoDistancePrice()
+    public function getDangerousCargoDistancePrice(): int
     {
         return match ($this) {
-            self::CARGO_CAR => 0.12,
-            self::CARGO_TENT => 1.0
+            self::CARGO_CAR, self::CARGO_TENT => 20
         };
     }
 
     /**
-     * @return CargoTypeInterface Returns correct class for calculation
+     * @return CargoTypeInterface Returns CargoType class for calculation
      */
     public function getCargoTypeClass(): CargoTypeInterface
     {
