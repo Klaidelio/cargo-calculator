@@ -32,7 +32,7 @@ class CargoTypeCar implements CargoTypeInterface
 
         $totalDistancePrice = $pricePerDistance * $distance;
 
-        return round(($totalDistancePrice + $totalCarsPrices) / 100, 2);
+        return ($totalDistancePrice + $totalCarsPrices);
     }
 
     /**
