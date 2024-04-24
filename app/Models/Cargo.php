@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -15,6 +16,9 @@ class Cargo extends Model
     public const DISTANCE = 'distance';
     public const WEIGHT = 'weight';
     public const PRICE = 'price';
+    public const DANGEROUS = 'dangerous';
+    public const CREATED_AT = 'created_at';
+    public const UPDATED_AT = 'updated_at';
 
     protected $table = 'cargos';
     protected $primaryKey = self::CARGO_ID;
@@ -26,9 +30,7 @@ class Cargo extends Model
         self::PRICE
     ];
 
-    protected $casts = [
-
-    ];
+    protected $casts = [];
 
     /**
      * @return HasOne
@@ -40,5 +42,28 @@ class Cargo extends Model
             self::CARGO_TYPE_ID,
             CargoType::CARGO_TYPE_ID
         );
+    }
+
+    public function getCargoInformation()
+    {
+        $dangerous = $this->getAttribute(Cargo::DANGEROUS);
+        $distance = $this->getAttribute(Cargo::DISTANCE) . 'km';
+        $weight = $this->getAttribute(Cargo::CARGO_TYPE_ID) === 1
+            ? $this->getAttribute(Cargo::WEIGHT) . ' aut'
+            : $this->getAttribute(Cargo::WEIGHT) . 'kg';
+
+        return $dangerous
+            ? "{$weight}; {$distance}; Pavojingas"
+            : "{$weight}; {$distance}";
+    }
+
+    public function getCargoPrice()
+    {
+        return $this->getAttribute(Cargo::PRICE) . ' EUR';
+    }
+
+    public function getFormattedDate()
+    {
+        return Carbon::create($this->getAttribute(Cargo::CREATED_AT))->format('Y-m-d');
     }
 }

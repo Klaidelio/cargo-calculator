@@ -3,34 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Enums\CargoTypeEnum;
-use App\Http\Requests\CargoTypeRequest;
 use App\Http\Requests\NewCargoRequest;
+use App\Http\Resources\CargoCollection;
+use App\Http\Resources\CargoResource;
 use App\Models\Cargo;
-use App\Models\CargoType;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class CargoController extends Controller
 {
     /**
-     * @return Collection
+     * @return CargoCollection
      */
-    public function getAll(): Collection
+    public function getAll(): CargoCollection
     {
-        return Cargo::with('cargoType')->get();
+        $cargos = Cargo::with('cargoType')->get();
+
+        return new CargoCollection($cargos);
     }
 
     /**
      * @param NewCargoRequest $request
-     * @return Cargo
+     * @return CargoResource
      */
-    public function store(NewCargoRequest $request)
+    public function store(NewCargoRequest $request): CargoResource
     {
         $cargoData = $request->all();
 
         $cargoData['price'] = $this->getCargoPrice($request);
 
-        return Cargo::create($cargoData);
+        try {
+            $newCargo = Cargo::create($cargoData);
+        } catch (\Throwable $th) {
+            Log::error(
+                sprintf(
+                    'Failed to create new cargo record: %s',
+                    $th->getMessage()
+                )
+            );
+
+            return new CargoResource([]);
+        }
+
+        return new CargoResource($newCargo);
     }
 
     /**
