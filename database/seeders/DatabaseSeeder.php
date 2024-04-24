@@ -13,10 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        CargoType::factory()->create([
+        CargoType::query()->createOrFirst([
             CargoType::NAME => 'Autovežis',
         ]);
-        CargoType::factory()->create([
+        CargoType::query()->createOrFirst([
             CargoType::NAME => 'Vilkikas su tentine priekaba'
         ]);
     }
