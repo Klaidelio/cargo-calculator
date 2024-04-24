@@ -10,4 +10,5 @@ echo "Preparing PHP dependencies..."
 $SCRIPT_DIR/backend.sh 'composer' 'install'
 $SCRIPT_DIR/backend.sh 'php' 'artisan' 'key:generate'
 $SCRIPT_DIR/backend.sh 'npm' 'install'
+$SCRIPT_DIR/backend.sh 'npm' 'run' 'build'
 
