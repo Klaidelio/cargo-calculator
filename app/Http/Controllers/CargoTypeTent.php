@@ -27,6 +27,6 @@ class CargoTypeTent implements CargoTypeInterface
             ? $this->cargoTypeEnum->getDangerousCargoWeightPrice()
             : $this->cargoTypeEnum->getCargoWeightPrice();
 
-        return round((($pricePerDistance * $distance) + ($pricePerWeight * $weight)) / 100, 2);
+        return (($pricePerDistance * $distance) + ($pricePerWeight * $weight));
     }
 }
