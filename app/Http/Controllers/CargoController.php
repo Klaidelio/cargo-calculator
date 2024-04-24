@@ -7,18 +7,27 @@ use App\Http\Requests\NewCargoRequest;
 use App\Http\Resources\CargoCollection;
 use App\Http\Resources\CargoResource;
 use App\Models\Cargo;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class CargoController extends Controller
 {
     /**
+     * @param Request $request
      * @return CargoCollection
      */
-    public function getAll(): CargoCollection
+    public function getAll(Request $request): CargoCollection
     {
-        $cargos = Cargo::with('cargoType')->get();
+        $cargos = Cargo::with('cargoType');
 
-        return new CargoCollection($cargos);
+        if ($request->has('cargo_type_id')) {
+            $cargos->where(
+                'cargo_type_id',
+                $request->get('cargo_type_id')
+            );
+        }
+
+        return new CargoCollection($cargos->get());
     }
 
     /**
@@ -55,11 +64,11 @@ class CargoController extends Controller
      */
     public function getCargoPrice(NewCargoRequest $request): float
     {
-        $cargoTypeID = $request->get('cargoTypeId');
+        $cargoTypeID = $request->get('cargo_type_id');
 
         $distance = $request->get('distance');
         $weight = $request->get('weight');
-        $isDangerous = $request->get('isDangerous');
+        $isDangerous = $request->get('dangerous');
 
         $cargoType = CargoTypeEnum::from($cargoTypeID);
 

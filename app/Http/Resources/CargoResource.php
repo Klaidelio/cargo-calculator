@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Cargo;
+use App\Models\CargoType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,9 +25,10 @@ class CargoResource extends JsonResource
 
         return [
             'date' => $cargo->getFormattedDate(),
-            'type' => $cargo->cargoType()->first(),
+            'type' => $cargo->cargoType()->first()->getAttribute(CargoType::NAME),
             'cargoInformation' => $cargo->getCargoInformation(),
-            'price' => $cargo->getCargoPrice()
+            'price' => $cargo->getCargoPrice(),
+            'dangerous' => (bool) $cargo->getAttribute(Cargo::DANGEROUS)
         ];
     }
 }

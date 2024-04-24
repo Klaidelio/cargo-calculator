@@ -23,7 +23,7 @@ class NewCargoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cargoTypeId' => 'required|exists:App\Models\CargoType,cargo_type_id',
+            'cargo_type_id' => 'required|exists:App\Models\CargoType,cargo_type_id',
             'distance' => 'required|integer',
             'weight' => 'required|integer'
         ];

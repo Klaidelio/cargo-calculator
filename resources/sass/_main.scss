@@ -1,20 +1,43 @@
-.cargos_table_actions {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    .cargos_table_add_new_cargo {
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 10px;
-    }
-    .cargos_table_filters {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
+#cargos_datatable {
+    .cargos_table_no_rows_found {
+        display: none;
     }
 }
 
-#cargos_table {
-    font-size: 16px;
+.cargos_table_actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin-bottom: 10px;
+
+    .cargos_table_cargo_type_filter {
+        width: 50%;
+    }
+
+    .cargos_table_add_new_cargo_container {
+        margin-left: auto;
+    }
+}
+
+.first_cargo_type,
+.second_cargo_type {
+    display: none;
+}
+
+.cargo_dangerous {
+    display: flex;
+    align-items: center;
+}
+
+.invalid {
+    border-color: red;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
 }

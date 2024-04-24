@@ -27,10 +27,9 @@ class Cargo extends Model
         self::CARGO_TYPE_ID,
         self::DISTANCE,
         self::WEIGHT,
-        self::PRICE
+        self::PRICE,
+        self::DANGEROUS
     ];
-
-    protected $casts = [];
 
     /**
      * @return HasOne
@@ -59,7 +58,7 @@ class Cargo extends Model
 
     public function getCargoPrice()
     {
-        return $this->getAttribute(Cargo::PRICE) . ' EUR';
+        return number_format(($this->getAttribute(Cargo::PRICE) / 100), 2) . ' EUR';
     }
 
     public function getFormattedDate()
